@@ -1,0 +1,19 @@
+spring:
+  profiles:
+    active: ${APP_PROFILE:test}
+  application:
+    name: auth-ms
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+server:
+  port: ${PORT:8080}
+jwt:
+  expiration: 600
+  public:
+    key: classpath:app.pub
+  private:
+    key: classpath:app.key
