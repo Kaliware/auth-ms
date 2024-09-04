@@ -2,7 +2,6 @@ package br.com.kaliware.ms.auth_ms.service.auth;
 
 import br.com.kaliware.ms.auth_ms.entity.Role;
 import br.com.kaliware.ms.auth_ms.entity.User;
-import br.com.kaliware.ms.auth_ms.mapper.UserMapper;
 import br.com.kaliware.ms.auth_ms.record.login.LoginRequestRecord;
 import br.com.kaliware.ms.auth_ms.record.login.LoginResponseRecord;
 import br.com.kaliware.ms.auth_ms.repository.UserRepository;
@@ -24,7 +23,6 @@ import java.util.stream.Collectors;
 public class AuthServiceImpl implements AuthService {
 
   private final UserRepository userRepository;
-  private final UserMapper userMapper;
   private final JwtEncoder jwtEncoder;
   private final PasswordEncoder passwordEncoder;
 
@@ -32,10 +30,9 @@ public class AuthServiceImpl implements AuthService {
   private long expiration;
 
   @Autowired
-  public AuthServiceImpl(UserRepository userRepository, JwtEncoder jwtEncoder, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+  public AuthServiceImpl(UserRepository userRepository, JwtEncoder jwtEncoder, PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
     this.jwtEncoder = jwtEncoder;
-    this.userMapper = userMapper;
     this.passwordEncoder = passwordEncoder;
   }
 

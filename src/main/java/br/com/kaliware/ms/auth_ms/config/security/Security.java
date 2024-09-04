@@ -7,9 +7,12 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -52,7 +55,14 @@ public class Security {
   protected SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
     security.csrf(AbstractHttpConfigurer::disable)
         .headers(HeadersConfigurer::disable)
-        .authorizeHttpRequests(auth -> auth.requestMatchers("/**").permitAll()).httpBasic(withDefaults());
+        .authorizeHttpRequests(auth -> {
+              auth.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
+              auth.requestMatchers("/h2-console/**").permitAll();
+              auth.anyRequest().authenticated();
+            }
+        ).httpBasic(withDefaults())
+        .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
     return security.build();
   }
 
