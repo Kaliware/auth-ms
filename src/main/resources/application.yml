@@ -12,7 +12,9 @@ spring:
 server:
   port: ${PORT:8080}
 jwt:
-  expiration: 600
+  expiration:
+    accessToken: 600
+    refreshToken: 86400
   public:
     key: classpath:app.pub
   private:
