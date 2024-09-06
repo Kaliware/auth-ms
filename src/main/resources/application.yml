@@ -1,8 +1,29 @@
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 729535803641-7t2bbs6pd8u23k694h8cgonk8k8j26sl.apps.googleusercontent.com
+            client-secret: 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
+            scope: openid, profile, email
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-name-attribute: sub
   profiles:
     active: ${APP_PROFILE:test}
   application:
     name: auth-ms
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: admin
+      timeout: 6000
   jpa:
     open-in-view: false
     properties:

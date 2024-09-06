@@ -23,8 +23,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
 public class Security {
 
@@ -62,8 +60,8 @@ public class Security {
               auth.requestMatchers("/h2-console/**").permitAll();
               auth.anyRequest().authenticated();
             }
-        ).httpBasic(withDefaults())
-        .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+        )
+        .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults())) // Continua com o uso de JWT
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
     return security.build();
   }

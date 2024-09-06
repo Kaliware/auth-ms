@@ -12,4 +12,5 @@ public interface AuthService {
   LoginResponseRecord refreshToken(RefreshTokenRequestRecord refreshTokenRequest);
   void logout(UUID userId);
 
+
 }

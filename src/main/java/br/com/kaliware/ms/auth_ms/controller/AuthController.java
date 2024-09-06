@@ -5,6 +5,7 @@ import br.com.kaliware.ms.auth_ms.record.login.LoginResponseRecord;
 import br.com.kaliware.ms.auth_ms.record.login.RefreshTokenRequestRecord;
 import br.com.kaliware.ms.auth_ms.service.auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

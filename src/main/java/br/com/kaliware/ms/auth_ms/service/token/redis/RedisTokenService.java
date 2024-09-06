@@ -1,4 +1,4 @@
-package br.com.kaliware.ms.auth_ms.service.auth.redis;
+package br.com.kaliware.ms.auth_ms.service.token.redis;
 
 import java.util.UUID;
 

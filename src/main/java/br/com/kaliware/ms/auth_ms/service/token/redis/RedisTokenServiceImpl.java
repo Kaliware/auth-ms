@@ -1,4 +1,4 @@
-package br.com.kaliware.ms.auth_ms.service.auth.redis;
+package br.com.kaliware.ms.auth_ms.service.token.redis;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -21,19 +21,19 @@ public class RedisTokenServiceImpl implements RedisTokenService {
 
   @Override
   public void saveRefreshToken(final UUID userId, final String token, final long expirationInSeconds) {
-    String redisKey = generateKey(userId);
+    final String redisKey = generateKey(userId);
     redisTemplate.opsForValue().set(redisKey, token, Duration.ofSeconds(expirationInSeconds));
   }
 
   @Override
   public String getRefreshTokenByUserId(final UUID userId) {
-    String redisKey = generateKey(userId);
+    final String redisKey = generateKey(userId);
     return redisTemplate.opsForValue().get(redisKey);
   }
 
   @Override
   public void deleteToken(final UUID userId) {
-    String redisKey = generateKey(userId);
+    final String redisKey = generateKey(userId);
     redisTemplate.delete(redisKey);
   }
 

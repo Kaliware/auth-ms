@@ -30,6 +30,9 @@ public class User {
       inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles;
 
+  @OneToMany(mappedBy = "id.user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+  private Set<OAuthProvider> oauthProviders;
+
   private Instant deletedAt;
 
   public User() {}
@@ -49,4 +52,9 @@ public class User {
   public Set<Role> getRoles() {
     return roles;
   }
+
+  public Set<OAuthProvider> getOauthProviders() {
+    return oauthProviders;
+  }
+
 }
