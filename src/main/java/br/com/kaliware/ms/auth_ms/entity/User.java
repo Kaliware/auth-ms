@@ -1,14 +1,10 @@
 package br.com.kaliware.ms.auth_ms.entity;
 
 import jakarta.persistence.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "tb_user")
@@ -25,10 +21,12 @@ public class User {
   private String password;
 
   @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(name = "tb_user_role",
+  @JoinTable(
+      name = "tb_user_permission_group",
       joinColumns = @JoinColumn(name = "user_id"),
-      inverseJoinColumns = @JoinColumn(name = "role_id"))
-  private Set<Role> roles;
+      inverseJoinColumns = @JoinColumn(name = "group_id")
+  )
+  private Set<PermissionGroup> permissionGroups = new HashSet<>();
 
   @OneToMany(mappedBy = "id.user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
   private Set<OAuthProvider> oauthProviders;
@@ -41,20 +39,38 @@ public class User {
     return id;
   }
 
-  public String getEmail() {
-    return email;
-  }
-
   public String getPassword() {
     return password;
-  }
-
-  public Set<Role> getRoles() {
-    return roles;
   }
 
   public Set<OAuthProvider> getOauthProviders() {
     return oauthProviders;
   }
 
+  public Set<Permission> getAllPermissions() {
+    return permissionGroups
+        .stream()
+        .flatMap(group -> group.getPermissions().stream())
+        .collect(Collectors.toSet());
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    User user = (User) o;
+    return id.equals(user.id) && email.equals(user.email) && password.equals(user.password) && Objects.equals(permissionGroups, user.permissionGroups) && Objects.equals(oauthProviders, user.oauthProviders) && Objects.equals(deletedAt, user.deletedAt);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = id.hashCode();
+    result = 31 * result + email.hashCode();
+    result = 31 * result + password.hashCode();
+    result = 31 * result + Objects.hashCode(permissionGroups);
+    result = 31 * result + Objects.hashCode(oauthProviders);
+    result = 31 * result + Objects.hashCode(deletedAt);
+    return result;
+  }
 }

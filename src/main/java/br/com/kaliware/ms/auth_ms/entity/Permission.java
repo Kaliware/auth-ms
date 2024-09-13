@@ -6,8 +6,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tb_role")
-public class Role {
+@Table(name = "tb_permission")
+public class Permission {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
@@ -16,10 +16,10 @@ public class Role {
   @Column(nullable = false)
   private String authority;
 
-  public Role() {
+  public Permission() {
   }
 
-  public Role(UUID id, String authority) {
+  public Permission(UUID id, String authority) {
     this.id = id;
     this.authority = authority;
   }
@@ -43,7 +43,7 @@ public class Role {
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
-    if (!(o instanceof Role role)) return false;
+    if (!(o instanceof Permission role)) return false;
     return Objects.equals(id, role.id);
   }
 

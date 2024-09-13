@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -33,9 +34,9 @@ public class AuthController {
     return ResponseEntity.ok(authService.refreshToken(refreshTokenRequest));
   }
 
-  @PostMapping("/logout/{userId}")
-  public ResponseEntity<Void> logout(@PathVariable UUID userId) {
-    authService.logout(userId);
+  @PostMapping("/logout")
+  public ResponseEntity<Void> logout(JwtAuthenticationToken token) {
+    authService.logout(UUID.fromString(token.getName()));
     return ResponseEntity.noContent().build();
   }
 }

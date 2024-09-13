@@ -1,10 +1,10 @@
 package br.com.kaliware.ms.auth_ms.service.token;
 
-import br.com.kaliware.ms.auth_ms.entity.Role;
+import br.com.kaliware.ms.auth_ms.entity.Permission;
 import br.com.kaliware.ms.auth_ms.entity.User;
 import br.com.kaliware.ms.auth_ms.record.login.LoginResponseRecord;
-import br.com.kaliware.ms.auth_ms.service.token.redis.RedisTokenService;
 import br.com.kaliware.ms.auth_ms.service.exception.auth.AuthenticationException;
+import br.com.kaliware.ms.auth_ms.service.token.redis.RedisTokenService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -66,8 +66,8 @@ public class TokenServiceImpl implements TokenService {
   }
 
   private String getUserScopes(final User user) {
-    return user.getRoles().stream()
-        .map(Role::getAuthority)
+    return user.getAllPermissions().stream()
+        .map(Permission::getAuthority)
         .collect(Collectors.joining(" "));
   }
 
