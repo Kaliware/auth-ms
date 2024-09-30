@@ -1,0 +1,20 @@
+services:
+  app:
+    container_name: auth-ms
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      CONFIG_SERVER_HOST: ${CONFIG_SERVER_HOST}
+      DATASOURCE_URL: ${DATASOURCE_URL}
+      DATASOURCE_USERNAME: ${DATASOURCE_USERNAME}
+      DATASOURCE_PASSWORD: ${DATASOURCE_PASSWORD}
+      DATASOURCE_SCHEME: ${DATASOURCE_SCHEME}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_PORT: ${REDIS_PORT}
+    volumes:
+      - ./data/log:/app/log
+      - ./data/jwt:/app/security/key
+    ports:
+      - "8080:8080"

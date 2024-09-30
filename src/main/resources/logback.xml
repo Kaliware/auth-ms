@@ -1,0 +1,45 @@
+<configuration>
+
+  <!-- Definindo uma variável que usa a variável de ambiente LOG_DIR -->
+  <property name="LOG_DIR" value="${LOG_DIR:-.}" />
+
+  <!-- Appender para salvar logs em arquivo com rotação baseada em tamanho -->
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!-- Define o arquivo de log e o diretório -->
+    <file>${LOG_DIR}/app-out.log</file>
+
+    <!-- Definir política de rotação -->
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <!-- Define o nome dos arquivos compactados (com data e hora) -->
+      <fileNamePattern>${LOG_DIR}/application-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+
+      <!-- Tamanho máximo do arquivo antes de ser compactado e arquivado (exemplo: 10MB) -->
+      <maxFileSize>500MB</maxFileSize>
+
+      <!-- Define a quantidade máxima de arquivos de log compactados que serão mantidos (ex: 30 dias) -->
+      <maxHistory>15</maxHistory>
+
+      <!-- Tamanho máximo total de arquivos de log compactados (ex: 1GB no total) -->
+      <totalSizeCap>5GB</totalSizeCap>
+    </rollingPolicy>
+
+    <!-- Formato do log dentro do arquivo -->
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- Appender para saída no console, se ainda quiser manter -->
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- Logger raiz que manda logs para o arquivo e o console -->
+  <root level="info">
+    <appender-ref ref="FILE" />
+    <appender-ref ref="CONSOLE" />
+  </root>
+
+</configuration>
