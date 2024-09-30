@@ -25,6 +25,12 @@ public class ControllerAdvice {
     return buildResponse(HttpStatus.UNAUTHORIZED, Collections.singletonList(e.getMessage()), request);
   }
 
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<StandardErrorRecord> exception(Exception e, HttpServletRequest request) {
+    e.printStackTrace();
+    return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, Collections.singletonList("Internal Error"), request);
+  }
+
   private ResponseEntity<StandardErrorRecord> buildResponse(HttpStatus status, Collection<String> messages, HttpServletRequest request) {
     StandardErrorRecord error = new StandardErrorRecord(
         Instant.now(),
