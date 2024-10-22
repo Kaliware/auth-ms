@@ -56,8 +56,7 @@ public class Security {
         .authorizeHttpRequests(auth -> {
               auth.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
               auth.requestMatchers(HttpMethod.POST, "/auth/refresh-token").permitAll();
-              auth.requestMatchers(HttpMethod.POST, "/auth/logout/**").permitAll();
-              auth.requestMatchers("/h2-console/**").permitAll();
+              auth.requestMatchers("/actuator/health").permitAll();
               auth.anyRequest().authenticated();
             }
         )

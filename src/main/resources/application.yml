@@ -4,4 +4,4 @@ spring:
   cloud:
     config:
       uri: ${CONFIG_SERVER_HOST}
-      name: application,auth-ms,eureka-client,postgresql,auth-common,oauth2,redis
+      name: application,auth-ms,eureka-client,postgresql,auth-common,oauth2,redis,actuator-common
